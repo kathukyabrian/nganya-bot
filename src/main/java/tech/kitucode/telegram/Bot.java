@@ -9,6 +9,10 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import tech.kitucode.telegram.config.ConfigManager;
+import tech.kitucode.telegram.domain.Nganya;
+import tech.kitucode.telegram.repository.NganyaRepository;
+
+import java.util.List;
 
 public class Bot extends TelegramLongPollingBot {
     private final Logger logger = LoggerFactory.getLogger(TelegramLongPollingBot.class);
@@ -47,7 +51,12 @@ public class Bot extends TelegramLongPollingBot {
             case "/start":
                 return "Hello World!";
             case "/list":
-                return "1. Mood\n2. Money Fest\n3. Babayaga\n";
+                List<Nganya> nganyas = NganyaRepository.findAll();
+                StringBuilder sb = new StringBuilder();
+                for (Nganya nganya : nganyas) {
+                    sb.append(nganya.getId()).append(".").append(" ").append(nganya.getName()).append("\n");
+                }
+                return sb.toString();
             case "/routes":
                 return "1. Embakasi\n2. Rongai\n3. Umoja\n4. Junkie";
             default:
