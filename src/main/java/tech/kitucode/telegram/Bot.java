@@ -49,8 +49,8 @@ public class Bot extends TelegramLongPollingBot {
     private String handleCommand(String command) {
         switch (command) {
             case "/start":
-                return "Hello World!";
-            case "/list":
+                return getDefaultMessage();
+            case "/nganyas":
                 List<Nganya> nganyas = NganyaRepository.findAll();
                 StringBuilder sb = new StringBuilder();
                 for (Nganya nganya : nganyas) {
@@ -60,7 +60,7 @@ public class Bot extends TelegramLongPollingBot {
             case "/routes":
                 return "1. Embakasi\n2. Rongai\n3. Umoja\n4. Junkie";
             default:
-                return "Hello World!";
+                return getDefaultMessage();
         }
     }
 
@@ -75,5 +75,18 @@ public class Bot extends TelegramLongPollingBot {
         } catch (TelegramApiException ex) {
             throw new RuntimeException(ex);
         }
+    }
+
+    private String getDefaultMessage() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("I can help you stay up to date with nganya trends.\n\n");
+
+        sb.append("You can control me by sending these commands:\n\n");
+
+        sb.append("/nganyas - list all nganyas\n");
+        sb.append("/routes - list all routes\n");
+
+        return sb.toString();
     }
 }
